@@ -35,6 +35,13 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+                  env:
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: metrics-app-secret
+                key: PASSWORD
+
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
